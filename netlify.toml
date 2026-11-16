@@ -1,0 +1,12 @@
+# Netlify configuration for the HCA site
+# The site is plain static HTML/CSS/JS — no build step needed.
+
+[build]
+  publish = "."
+  command = ""
+
+# Pretty URLs: /us instead of /us.html (optional, Netlify also does this automatically)
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
