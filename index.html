@@ -319,24 +319,15 @@
       <h2 class="display mt-m" style="font-size:clamp(2rem,5.5vw,3.8rem);">What could your agency's growth look like with the right support?</h2>
       <p class="lead">Tell us about your agency, what's keeping you awake at night and what success looks like.</p>
     </div>
-    <form class="form mt-l" id="enquiryForm" name="contact" method="POST" action="/thanks" style="max-width:640px;" novalidate>
-      <p style="display:none;"><label>Don't fill this in: <input name="bot-field"/></label></p>
-      <div class="form-row">
-        <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" required/></div>
-        <div class="field"><label for="business">Agency</label><input id="business" name="business" type="text"/></div>
-      </div>
-      <div class="form-row">
-        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required/></div>
-        <div class="field"><label for="phone">Phone (optional)</label><input id="phone" name="phone" type="tel"/></div>
-      </div>
-  <div class="field"><label for="message">What does growth look like for you?</label><textarea id="message" name="message" rows="1" required></textarea></div>
-      <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
-        <button class="btn btn--green" type="submit">Send &amp; choose a time <span class="arrow">→</span></button>
-        <a class="textlink" href="mailto:hello@hca.uk.com" style="color:#fff; border-color:var(--green);">or email hello@hca.uk.com</a>
-      </div>
-      <p class="form-status" id="formStatus" role="status" aria-live="polite" style="margin:14px 0 0; color:#fff; font-weight:600;"></p>
-      <p class="fineprint" style="margin-top:14px; color:rgba(255,255,255,.85);">We'll use these details to reply to your enquiry. See our <a href="privacy.html" style="color:#fff; text-decoration:underline;">privacy policy</a>.</p>
-    </form>
+    <div class="hs-embed mt-l" style="max-width:640px; background:#fff; border-radius:var(--radius); padding:clamp(18px,3vw,28px);">
+      <script src="https://js-eu1.hsforms.net/forms/embed/149559148.js" defer></script>
+      <div class="hs-form-frame" data-region="eu1" data-form-id="7f54c12e-0cf7-4caf-b25c-6c6dab495e3f" data-portal-id="149559148"></div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:18px;">
+      <a class="btn btn--green" href="https://calendar.app.google/o5nmfhy7BQVpwPdS7?source=HCA" target="_blank" rel="noopener">Or choose a time now <span class="arrow">→</span><span class="sr"> (opens in a new tab)</span></a>
+      <a class="textlink" href="mailto:hello@hca.uk.com" style="color:#fff; border-color:var(--green);">or email hello@hca.uk.com</a>
+    </div>
+    <p class="fineprint" style="margin-top:14px; color:rgba(255,255,255,.85);">We'll use these details to reply to your enquiry. See our <a href="privacy.html" style="color:#fff; text-decoration:underline;">privacy policy</a>.</p>
   </div>
 </section>
 
@@ -438,44 +429,6 @@
   openers.forEach(function(el){ el.addEventListener('click', open); });
   modal.addEventListener('click', function(e){ if(e.target.hasAttribute('data-close')) close(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) close(); });
-})();
-</script>
-<script>
-(function(){
-  var form=document.getElementById('enquiryForm');
-  if(!form) return;
-  // HubSpot "Website enquiry" form (shared by all Chameleon Brands sites); enquiry_brand marks it as HCA.
-  var PORTAL='149559148', FORM_ID='7f54c12e-0cf7-4caf-b25c-6c6dab495e3f';
-  var ENDPOINTS=['https://api.hsforms.com','https://api-eu1.hsforms.com'];
-  var BOOKING='https://calendar.app.google/o5nmfhy7BQVpwPdS7?source=HCA';
-  var status=document.getElementById('formStatus');
-  var v=function(n){ return (form.elements[n] && form.elements[n].value || '').trim(); };
-  var cookie=function(n){ var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)'); return m?decodeURIComponent(m[1]):undefined; };
-  function send(i, payload){
-    return fetch(ENDPOINTS[i]+'/submissions/v3/integration/submit/'+PORTAL+'/'+FORM_ID,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-      .then(function(r){ if(r.ok) return r; if(i+1<ENDPOINTS.length) return send(i+1,payload); throw new Error('status '+r.status); },
-            function(err){ if(i+1<ENDPOINTS.length) return send(i+1,payload); throw err; });
-  }
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    if(v('bot-field')) return;
-    if(!form.checkValidity()){ form.reportValidity(); return; }
-    var name=v('name').split(/\s+/), first=name.shift()||'', last=name.join(' ');
-    var fields=[['firstname',first],['lastname',last],['email',v('email')],['phone',v('phone')],['company',v('business')],['message',v('message')],['enquiry_brand','hca']]
-      .filter(function(f){ return f[1]; }).map(function(f){ return {objectTypeId:'0-1',name:f[0],value:f[1]}; });
-    var ctx={pageUri:location.href,pageName:document.title}; var hutk=cookie('hubspotutk'); if(hutk) ctx.hutk=hutk;
-    // Open the booking page during the click itself, so pop-up blockers allow it.
-    window.open(BOOKING,'_blank','noopener');
-    var btn=form.querySelector('button[type=submit]'); btn.disabled=true; status.textContent='Sending…';
-    send(0,{fields:fields,context:ctx})
-      .then(function(){ form.reset(); status.textContent='Thanks – your message is with us. Pick a time in the tab we just opened, or we\'ll be in touch.'; })
-      .catch(function(){
-        status.textContent='Sorry, that didn\'t send. Your email app will open with your message instead.';
-        var body='Name: '+v('name')+'\nEmail: '+v('email')+'\nAgency: '+(v('business')||'-')+'\nPhone: '+(v('phone')||'-')+'\n\n'+v('message');
-        window.location.href='mailto:hello@hca.uk.com?subject='+encodeURIComponent('Enquiry from '+(v('name')||'the website'))+'&body='+encodeURIComponent(body);
-      })
-      .then(function(){ btn.disabled=false; });
-  });
 })();
 </script>
 <script src="assets/main.js"></script>
