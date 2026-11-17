@@ -28,9 +28,8 @@
       <a href="services.html">Services</a>
       <a href="use-cases.html">Use cases</a>
       <a href="how-we-work.html">How we work</a>
-      <a href="index.html#results">Results</a>
+      <a href="results.html">Results</a>
       <a href="founder.html">About</a>
-      <a href="questions.html" class="nav-optional">Questions</a>
       <a class="btn btn--accent header-cta" href="index.html#contact">A free hour, no strings <span class="arrow" aria-hidden="true">→</span></a>
     </nav>
   </div>
@@ -222,7 +221,7 @@
       <div class="stop"><h3>Discuss</h3><p class="biz">Your ambitions</p><p>Where you want to get to, what's realistic and what's not.</p></div>
       <div class="stop"><h3>Map</h3><p class="biz">Strategy</p><p>A clear plan for where AI genuinely changes your new business, and where it won't.</p></div>
       <div class="stop"><h3>Build</h3><p class="biz">AI-integrated</p><p>Workflows and tools fitted to your agency and your existing systems, with documentation.</p></div>
-      <div class="stop"><h3>Coach</h3><p class="biz">People &amp; evolve</p><p>Optional. We coach your team, run the grown-up conversations, and refine as you grow.</p></div>
+      <div class="stop"><h3>Coach</h3><p class="biz">People &amp; ongoing support</p><p>We coach your team, or our partners have the conversations for you, and we fine-tune the tools as you grow.</p></div>
     </div>
   </div>
 </section>
@@ -309,8 +308,7 @@
       <h2 class="display mt-m" style="font-size:clamp(2rem,5.5vw,3.8rem);">What could your agency's growth look like with the right support?</h2>
       <p class="lead">Tell us about your agency, what's keeping you awake at night and what success looks like.</p>
     </div>
-    <form class="form mt-l" id="enquiryForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" style="max-width:640px;">
-      <input type="hidden" name="form-name" value="contact"/>
+    <form class="form mt-l" id="enquiryForm" name="contact" method="POST" action="/api/contact" style="max-width:640px;">
       <input type="hidden" name="source" value="HCA"/>
       <p style="display:none;"><label>Don't fill this in: <input name="bot-field"/></label></p>
       <div class="form-row">
@@ -347,9 +345,8 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="use-cases.html">Use cases</a></li>
           <li><a href="how-we-work.html">How we work</a></li>
-          <li><a href="index.html#results">Results</a></li>
+          <li><a href="results.html">Results</a></li>
           <li><a href="founder.html">About</a></li>
-          <li><a href="questions.html">Practical questions</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -360,7 +357,7 @@
           <li><a href="index.html#contact">A free hour, no strings</a></li>
           <li><a href="https://calendar.app.google/o5nmfhy7BQVpwPdS7?source=HCA-demo" target="_blank" rel="noopener">Book a demo<span class="sr"> (opens in a new tab)</span></a></li>
         </ul>
-        <p class="fineprint" style="margin-top:22px;">We agree in writing which data is used, where it is processed and who can access it. A person signs off what matters. <a href="questions.html#q3">How we handle your data</a></p>
+        <p class="fineprint" style="margin-top:22px;">We agree in writing which data is used, where it is processed and who can access it. A person signs off what matters.</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -440,9 +437,9 @@
   var bookingHref=BOOKING+(BOOKING.indexOf('?')>=0?'&':'?')+'source=HCA';
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var data=new URLSearchParams(new FormData(form));
+    var data=Object.fromEntries(new FormData(form));
     var goToBooking=function(){ window.open(bookingHref,'_blank','noopener'); };
-    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:data.toString() })
+    fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) })
       .then(function(r){ if(!r.ok) throw new Error('bad status'); form.reset(); goToBooking(); })
       .catch(function(){
         var v=function(n){ return (form.elements[n] && form.elements[n].value || '').trim(); };

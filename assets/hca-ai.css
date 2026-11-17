@@ -9,7 +9,7 @@
 /* Nav: tighter to fit more items */
 .nav { gap: clamp(12px, 1.6vw, 24px); }
 .nav a { font-size: 0.95rem; }
-@media (max-width: 1120px) and (min-width: 941px) { .nav a.nav-optional { display: none; } }
+/* Below 1120px the full menu (including Questions) moves into the menu button */
 
 /* Highlight words */
 .hl-c { color: var(--cerise); }
@@ -114,6 +114,12 @@
 .stop p { color: var(--muted); }
 .stop .out { color: var(--ink-soft); font-size: .95rem; }
 .stop .dec { font-family: var(--display); font-weight: 600; font-size: .95rem; color: var(--ink); }
+/* Line up each part of the stops (title, label, description, 'You leave with', 'Decision') across the columns at every width */
+.rail { row-gap: 40px; }
+@supports (grid-template-rows: subgrid) {
+  .stop { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; align-content: start; }
+  .stop .out { align-self: start; }
+}
 
 /* ---------- Promise ---------- */
 .promise { background: var(--ink); color: #fff; }

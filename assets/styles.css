@@ -131,7 +131,7 @@ p { margin: 0 0 1.1em; text-wrap: pretty; }
 .header-cta { margin-left: 6px; }
 .nav-toggle { display: none; }
 
-@media (max-width: 940px) {
+@media (max-width: 1120px) {
   .header-cta { display: none; }
   .nav-toggle { display: inline-flex; flex-direction: column; gap: 5px; background: none; border: 0; cursor: pointer; padding: 8px; }
   .nav-toggle span { width: 26px; height: 2px; background: var(--ink); transition: .25s; }
